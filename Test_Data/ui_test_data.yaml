@@ -1,0 +1,73 @@
+valid_user_data:
+  login_email: test123@tester.com
+  login_password: Welcome@tester12345
+  signup_name: demo_tester
+  signup_email: demo_tester@gmail.com
+  signup_password: demo_tester123
+  signup_title: Mr
+  signup_day: 1
+  signup_month: 1
+  signup_year: 2000
+  signup_news: true
+  signup_offer: true
+  signup_firstname: demo
+  signup_lastname: tester
+  signup_company: test_company
+  signup_address1: test_address1
+  signup_address2: test_address2
+  signup_country: India
+  signup_state: test_address
+  signup_city: test_city
+  signup_zipcode: test_zip
+  signup_mobile: 1234567890
+
+invalid_user_data:
+  login_email: invalid@email.com
+  login_password: invalid_password
+  signup_name: test_tester
+  signup_email: test123@tester.com
+  signup_password: demo_tester123
+  signup_title: Mr
+  signup_day: 1
+  signup_month: 1
+  signup_year: 2000
+  signup_news: true
+  signup_offer: true
+  signup_firstname: demo
+  signup_lastname: tester
+  signup_company: test_company
+  signup_address1: test_address1
+  signup_address2: test_address2
+  signup_country: India
+  signup_state: test_address
+  signup_city: test_city
+  signup_zipcode: test_zip
+  signup_mobile: 1234567890
+
+contact_us_data:
+  contact_us_name: test_tester
+  contact_us_email: test123@tester.com
+  contact_us_subject: test_subject
+  contact_us_message: test_message
+  contact_us_file: "Test_Data/test_text_file.txt"
+
+product_data:
+  product_name: Blue Top
+  product_quantity: 5
+  product_price: 500
+  product_category: Women
+  product_subcategory: Tops
+  product_brand: Polo
+  product_availability: In Stock
+  product_condition: New
+
+invalid_product_data:
+  product_name: xyz123
+
+order_data:
+  order_comment: test_comment
+  card_name: card_name
+  card_number: card_number
+  card_cvc: card_cvc
+  card_month: card_month
+  card_year: card_year

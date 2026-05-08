@@ -1,0 +1,73 @@
+name: Run Automation Tests
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: "Select test type to run"
+        required: true
+        default: "all"
+        type: choice
+        options:
+          - all
+          - api
+          - cli
+          - ui_selenium
+          - ui_playwright
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Requirements
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright Browsers
+        run: python -m playwright install --with-deps
+
+      - name: Set Marker
+        id: marker
+        run: |
+          if [ "${{ github.event_name }}" = "push" ] || [ "${{ github.event.inputs.test_type }}" = "all" ]; then
+            echo "marker=ui_playwright or ui_selenium or api or cli" >> $GITHUB_OUTPUT
+          else
+            echo "marker=${{ github.event.inputs.test_type }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Pytest
+        run: |
+          pytest --headless -m "${{ steps.marker.outputs.marker }}"
+
+      - name: Generate Allure Report
+        if: always()
+        uses: simple-elf/allure-report-action@v1.7
+        with:
+          allure_results: Reports/Allure_Report/Allure_Raw_Data
+          allure_report: Reports/Allure_Report/Allure_HTML
+
+      - name: Upload Allure HTML Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Allure-HTML-Report
+          path: Reports/Allure_Report/Allure_HTML/
+
+      - name: Upload HTML Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HTML-Report
+          path: Reports/HTML_Report/
+          if-no-files-found: ignore

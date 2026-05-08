@@ -1,0 +1,12 @@
+user_data:
+
+  valid_username: "emilys"
+  valid_password: "emilyspass"
+
+  invalid_username: "wrong_user"
+  invalid_password: "wrong_pass"
+
+  new_user_firstname: "test_user_firstname"
+  new_user_lastname: "test_user_lastname"
+
+  new_user_update_firstname: "test_user_firstname_updated"

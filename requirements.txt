@@ -1,0 +1,9 @@
+pytest
+pytest-html
+pytest-rerunfailures
+allure-pytest
+selenium
+requests
+PyYAML
+playwright
+pytest-xdist
