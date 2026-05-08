@@ -1,6 +1,9 @@
 import os
+from datetime import datetime
 import shutil
 import pytest
+import pytest_html
+from pytest_html import extras
 from Utilities.get_config import ConfigReader
 from Utilities.logger import get_logger
 from UI_Selenium.webdriver import get_driver
@@ -129,3 +132,37 @@ def page(context):
     yield page
     page.close()
 
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    rep = outcome.get_result()
+    rep.log_file = getattr(item, "log_file", None)
+
+    if rep.when == "call" and rep.failed:
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        test_name = item.name.replace("::", "_").replace("/", "_")
+        screenshot_dir = "Reports/Screenshots"
+
+        driver = item.funcargs.get("driver", None)
+        if driver:
+            file_path = f"{screenshot_dir}/{test_name}_{timestamp}_selenium.png"
+            driver.save_screenshot(file_path)
+
+        page = item.funcargs.get("page", None)
+        if page:
+            file_path = f"{screenshot_dir}/{test_name}_{timestamp}_playwright.png"
+            page.screenshot(path=file_path, full_page=True)
+
+
+@pytest.hookimpl(optionalhook=True)
+def pytest_html_results_table_extra(report, outcome, extra):
+    if report.when == "call":
+
+        log_file = getattr(report, "log_file", None)
+
+        if log_file and os.path.exists(log_file):
+            rel_path = os.path.relpath(log_file)
+
+            extra.append(extras.url(rel_path, name="Log File"))
