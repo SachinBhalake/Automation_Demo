@@ -50,20 +50,6 @@ jobs:
         run: |
           pytest --headless -m "${{ steps.marker.outputs.marker }}"
 
-      - name: Generate Allure Report
-        if: always()
-        uses: simple-elf/allure-report-action@v1.7
-        with:
-          allure_results: Reports/Allure_Report/Allure_Raw_Data
-          allure_report: Reports/Allure_Report/Allure_HTML
-
-      - name: Upload Allure HTML Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: Allure-HTML-Report
-          path: Reports/Allure_Report/Allure_HTML/
-
       - name: Upload HTML Report
         if: always()
         uses: actions/upload-artifact@v4
