@@ -45,8 +45,8 @@ class TestCLI:
         result = client.run_command(["docker", "ps"])
 
         assert result.returncode == 0, "Test Failed: Docker command failed"
-        assert "CONTAINER ID" in result.stdout.lower(), "Test Failed: Empty container is not running"
-        assert "IMAGE" in result.stdout.lower(), "Test Failed: Empty container is not running"
+        assert "CONTAINER ID" in result.stdout, "Test Failed: Empty container is not running"
+        assert "IMAGE" in result.stdout, "Test Failed: Empty container is not running"
 
         logger.info("Test Passed: Verified Docker containers are running")
 
