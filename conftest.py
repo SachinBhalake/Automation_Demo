@@ -141,6 +141,9 @@ def pytest_runtest_makereport(item, call):
 
     if rep.when == "call" and rep.failed:
 
+        if not hasattr(rep, "extras"):
+            rep.extras = []
+
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         test_name = item.name.replace("::", "_").replace("/", "_")
         screenshot_dir = "Reports/Screenshots"
@@ -149,12 +152,13 @@ def pytest_runtest_makereport(item, call):
         if driver:
             file_path = f"{screenshot_dir}/{test_name}_{timestamp}_selenium.png"
             driver.save_screenshot(file_path)
+            rep.extras.append(extras.image(file_path))
 
         page = item.funcargs.get("page", None)
         if page:
             file_path = f"{screenshot_dir}/{test_name}_{timestamp}_playwright.png"
             page.screenshot(path=file_path, full_page=True)
-
+            rep.extras.append(extras.image(file_path))
 
 @pytest.hookimpl(optionalhook=True)
 def pytest_html_results_table_extra(report, outcome, extra):
