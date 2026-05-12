@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: HTML-Report
-          path: Reports/HTML_Report/
+          path: Reports/
           if-no-files-found: ignore
 
       - name: Upload Logs
